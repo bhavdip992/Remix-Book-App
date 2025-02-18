@@ -1,10 +1,6 @@
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import { AppProvider, Frame, TopBar, Navigation, Layout, Page } from "@shopify/polaris";
+import '@shopify/polaris/build/esm/styles.css';
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
@@ -40,6 +36,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+  // 🟢 Sidebar Navigation
+  const navigationMarkup = (
+    <Navigation location="/">
+      <Navigation.Section
+        title="Main Menu"
+        items={[
+          { label: "Authors", url: "/authors" },
+          { label: "Books", url: "/books" },
+          { label: "Profile", url: "/profile" },
+        ]}
+      />
+    </Navigation>
+  );
+
 export default function App() {
-  return <Outlet />;
+  return(
+    <AppProvider i18n={{}}>
+    <Frame  navigation={navigationMarkup}>
+      <Page>
+          <Layout>
+            <Outlet />
+          </Layout>
+      </Page>
+    
+    </Frame>
+  </AppProvider>
+
+  );
 }
